@@ -9,7 +9,7 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 
 if not MONGO_URI:
-    raise ValueError("❌ MongoDB URI not found. Please create a .env file with MONGO_URI variable.")
+    raise ValueError(" MongoDB URI not found. Please create a .env file with MONGO_URI variable.")
 
 # Connect to MongoDB
 try:
@@ -18,7 +18,7 @@ try:
     cats_collection = db["cats"]
     print(" Connected to MongoDB successfully!")
 except Exception as e:
-    print(f"❌ Failed to connect to MongoDB: {e}")
+    print(f" Failed to connect to MongoDB: {e}")
     exit(1)
 
 # === CRUD FUNCTIONS ===
