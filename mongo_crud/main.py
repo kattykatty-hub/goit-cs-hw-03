@@ -16,7 +16,7 @@ try:
     client = MongoClient(MONGO_URI)
     db = client["cats_db"]
     cats_collection = db["cats"]
-    print("✅ Connected to MongoDB successfully!")
+    print(" Connected to MongoDB successfully!")
 except Exception as e:
     print(f"❌ Failed to connect to MongoDB: {e}")
     exit(1)
@@ -27,9 +27,9 @@ def add_cat(name, age, features):
     try:
         cat = {"name": name, "age": age, "features": features}
         cats_collection.insert_one(cat)
-        print(f"✅ Cat '{name}' added!")
+        print(f" Cat '{name}' added!")
     except Exception as e:
-        print(f"❌ Error adding cat: {e}")
+        print(f" Error adding cat: {e}")
 
 def list_cats():
     for cat in cats_collection.find():
@@ -40,32 +40,32 @@ def find_cat(name):
     if cat:
         print(cat)
     else:
-        print(f"❌ No cat found with name '{name}'")
+        print(f" No cat found with name '{name}'")
 
 def update_age(name, new_age):
     result = cats_collection.update_one({"name": name}, {"$set": {"age": new_age}})
     if result.matched_count:
-        print(f"✅ Updated {name}'s age to {new_age}")
+        print(f" Updated {name}'s age to {new_age}")
     else:
-        print(f"❌ No cat found with name '{name}'")
+        print(f" No cat found with name '{name}'")
 
 def add_feature(name, feature):
     result = cats_collection.update_one({"name": name}, {"$push": {"features": feature}})
     if result.matched_count:
-        print(f"✅ Added feature '{feature}' for {name}")
+        print(f" Added feature '{feature}' for {name}")
     else:
-        print(f"❌ No cat found with name '{name}'")
+        print(f" No cat found with name '{name}'")
 
 def delete_cat(name):
     result = cats_collection.delete_one({"name": name})
     if result.deleted_count:
-        print(f"✅ Deleted '{name}'")
+        print(f" Deleted '{name}'")
     else:
-        print(f"❌ No cat found with name '{name}'")
+        print(f" No cat found with name '{name}'")
 
 def delete_all_cats():
     result = cats_collection.delete_many({})
-    print(f"✅ Deleted {result.deleted_count} cats")
+    print(f" Deleted {result.deleted_count} cats")
 
 # === MAIN MENU ===
 
@@ -94,10 +94,10 @@ def main():
         elif cmd == "delete_all":
             delete_all_cats()
         elif cmd == "exit":
-            print("👋 Goodbye!")
+            print(" Goodbye!")
             break
         else:
-            print("❌ Unknown command")
+            print(" Unknown command")
 
 if __name__ == "__main__":
     main()
