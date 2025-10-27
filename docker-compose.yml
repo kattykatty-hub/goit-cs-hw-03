@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:15
+    container_name: task_db
+    restart: always
+    environment:
+      POSTGRES_DB: task_manager
+      POSTGRES_USER: task_user
+      POSTGRES_PASSWORD: strongpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U task_user -d task_manager"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  seed:
+    build: ./app
+    container_name: task_seed
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_NAME: task_manager
+      DB_USER: task_user
+      DB_PASS: strongpassword
+    command: ["python", "seed.py"]
+
+volumes:
+  pgdata:
